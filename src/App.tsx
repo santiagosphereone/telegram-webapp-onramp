@@ -23,15 +23,17 @@ const AppContainer = styled.div`
 
 function App() {
   return (
-    <StyledApp>
-      <AppContainer>
-        <FlexBoxCol>
-          <Card>
-            <OuterIframe />
-          </Card>
-        </FlexBoxCol>
-      </AppContainer>
-    </StyledApp>
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <OuterIframe />;
+    </div>
   );
 }
 
