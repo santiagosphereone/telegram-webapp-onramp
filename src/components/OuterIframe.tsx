@@ -1,5 +1,4 @@
 import { ChangeEvent, useState } from "react";
-import "../App.css";
 import { useSearchParams } from "react-router-dom";
 
 type Environment = "STAGING" | "PRODUCTION";
@@ -14,14 +13,6 @@ export default function OuterIframe() {
   const [apiKey, setApiKey] = useState<string>(
     "b5bede12-a8ad-4147-ae85-ecf4cd2b1fd5"
   );
-
-  const toggleEnvironment = (selectedEnvironment: Environment) => {
-    setEnvironment(selectedEnvironment);
-  };
-
-  const handleApiChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setApiKey(e.target.value);
-  };
 
   const apiUrl =
     environment === "STAGING"
@@ -38,6 +29,11 @@ export default function OuterIframe() {
         border: "none",
         borderRadius: "10px",
         overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        margin: "auto",
       }}
       src={finalUrl}
       allow="camera;microphone;payment"

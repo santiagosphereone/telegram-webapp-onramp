@@ -1,38 +1,42 @@
 import "./App.css";
-import styled from "styled-components";
-import { FlexBoxCol, Card } from "./components/styled/styled";
 import "@twa-dev/sdk";
-import OuterIframe from "./components/OuterIframe";
+import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
-const StyledApp = styled.div`
-  background-color: var(--tg-theme-bg-color);
-  color: black;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: #222;
-    color: white;
-  }
-  min-height: 100vh;
-  padding: 10px;
-`;
-
-const AppContainer = styled.div`
-  max-width: 100%;
-  margin: 0 auto;
-`;
+type Environment = "STAGING" | "PRODUCTION";
 
 function App() {
+  const [open, setOpen] = useState(false);
+  const [searchParams] = useSearchParams();
+
+  const [environment, setEnvironment] = useState<Environment>(
+    (searchParams.get("environment") as Environment) || "STAGING"
+  );
+
+  const [apiKey, setApiKey] = useState<string>(
+    "b5bede12-a8ad-4147-ae85-ecf4cd2b1fd5"
+  );
+
+  const apiUrl =
+    environment === "STAGING"
+      ? `https://transak-double-iframe-supporter.vercel.app/staging?environment=${environment}`
+      : `https://transak-double-iframe-supporter.vercel.app/production?environment=${environment}`;
+
+  const finalUrl = `${apiUrl}${apiKey ? `&apiKey=${apiKey}` : ""}`;
+
   return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <OuterIframe />;
+    <div className="app-container">
+      {open ? (
+        <iframe
+          className="responsive-iframe"
+          src={finalUrl}
+          allow="camera;microphone;payment"
+        />
+      ) : (
+        <button className="open-button" onClick={() => setOpen(!open)}>
+          Buy Mantle with Transak
+        </button>
+      )}
     </div>
   );
 }
